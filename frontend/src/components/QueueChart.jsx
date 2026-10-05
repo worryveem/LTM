@@ -55,7 +55,7 @@ export default function QueueChart({ history, bufferCapacity }) {
       ctx.fillStyle = '#f43f5e';
       ctx.font = '10px "Inter", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText(`Capacity (${bufferCapacity})`, padding.left + 5, capY - 5);
+      ctx.fillText(`Cap: ${bufferCapacity}`, padding.left + 5, capY - 5);
       ctx.restore();
     }
 
@@ -63,7 +63,7 @@ export default function QueueChart({ history, bufferCapacity }) {
       ctx.fillStyle = '#9ca3af';
       ctx.font = '13px "Inter", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('Đang chờ dữ liệu stream...', width / 2, height / 2);
+      ctx.fillText('Đang chờ dữ liệu...', width / 2, height / 2);
       return;
     }
 

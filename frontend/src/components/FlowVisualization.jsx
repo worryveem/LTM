@@ -13,7 +13,6 @@ export default function FlowVisualization({ metrics }) {
 
   const queuePct = Math.min(100, Math.round((queueSize / bufferCapacity) * 100));
 
-  // Determine queue bar color based on level
   let queueColor = '#10b981'; // Green
   if (queuePct > 80) {
     queueColor = '#f43f5e'; // Red
@@ -27,10 +26,10 @@ export default function FlowVisualization({ metrics }) {
       <div className={`flow-node producer-node ${isRunning ? 'active' : ''}`}>
         <div className="node-badge">PRODUCER</div>
         <div className="node-rate">{producerRate.toLocaleString()}</div>
-        <div className="node-unit">events / giây</div>
+        <div className="node-unit">/s</div>
         {backpressureActive && (
           <div className="throttle-warning">
-            ⚠️ Throttled by Backpressure
+            ⚠️ Throttled
           </div>
         )}
       </div>
@@ -41,13 +40,13 @@ export default function FlowVisualization({ metrics }) {
           <span>➔</span>
         </div>
         <div className="stream-rate">
-          {backpressureActive ? `Throttled (~${consumerRate}/s)` : `${producerRate}/s`}
+          {backpressureActive ? `~${consumerRate}/s` : `${producerRate}/s`}
         </div>
       </div>
 
       {/* 2. Queue / Buffer Box */}
       <div className={`flow-node queue-node ${queuePct > 80 ? 'warning' : ''}`}>
-        <div className="node-badge">BUFFER / QUEUE</div>
+        <div className="node-badge">QUEUE</div>
         <div className="queue-metric">
           <span className="queue-size">{queueSize.toLocaleString()}</span>
           <span className="queue-capacity">/ {bufferCapacity.toLocaleString()}</span>
@@ -61,7 +60,7 @@ export default function FlowVisualization({ metrics }) {
           />
         </div>
         <div className="buffer-info">
-          <span>{queuePct}% dung lượng</span>
+          <span>{queuePct}%</span>
           {droppedEvents > 0 && (
             <span className="dropped-badge">Drop: {droppedEvents.toLocaleString()}</span>
           )}
@@ -74,7 +73,7 @@ export default function FlowVisualization({ metrics }) {
           <span>➔</span>
         </div>
         <div className="stream-rate">
-          {queueSize > 0 ? `${consumerRate}/s` : '0/s (Empty)'}
+          {queueSize > 0 ? `${consumerRate}/s` : '0/s'}
         </div>
       </div>
 
@@ -82,10 +81,7 @@ export default function FlowVisualization({ metrics }) {
       <div className={`flow-node consumer-node ${isRunning && queueSize > 0 ? 'active' : ''}`}>
         <div className="node-badge">CONSUMER</div>
         <div className="node-rate">{consumerRate.toLocaleString()}</div>
-        <div className="node-unit">events / giây</div>
-        <div className="consumer-status">
-          {queueSize > consumerRate ? 'Đang tải tối đa' : 'Ổn định'}
-        </div>
+        <div className="node-unit">/s</div>
       </div>
     </div>
   );
